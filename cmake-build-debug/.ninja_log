@@ -1,6 +1,9 @@
 # ninja log v5
-1	116	7359459765177088	CMakeFiles/Loan_Calculator.dir/main.c.obj	61233428c243f70c
-117	231	7359459766306320	Loan_Calculator.exe	cc3f65100afb4118
+2	90	7359478657417356	CMakeFiles/Loan_Calculator.dir/main.c.obj	61233428c243f70c
+84	277	7359499099420009	Loan_Calculator.exe	3efe1283ab11d9fb
 2	157	7359465771855905	CMakeFiles/Loan_Calculator.dir/main2.c.obj	c4c3f4ed697783cb
-3	95	7359466734119408	CMakeFiles/Loan_Calculator.dir/main.c.obj	61233428c243f70c
-95	197	7359466735107358	Loan_Calculator.exe	d5e08c3d7404388c
+2	83	7359499097529527	CMakeFiles/Loan_Calculator.dir/loan_tab.c.obj	b231aa1680989282
+2	83	7359504087177172	CMakeFiles/Loan_Calculator.dir/loan_tab.c.obj	b231aa1680989282
+83	176	7359504088071080	Loan_Calculator.exe	3efe1283ab11d9fb
+2	74	7359505997611093	CMakeFiles/Loan_Calculator.dir/loan_tab.c.obj	b231aa1680989282
+74	161	7359505998442340	Loan_Calculator.exe	3efe1283ab11d9fb

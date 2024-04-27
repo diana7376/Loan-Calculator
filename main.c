@@ -5,7 +5,7 @@
 double calculateMonthlyPayment(double loan, int term, double rate, double downPay);
 double calculateInterestAccrued(double monthlyPayment, double loan, double downPay, int term);
 
-int main() {
+int main1() {
     double loan;
     do {
         printf("Loan amount: ");

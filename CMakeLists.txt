@@ -5,4 +5,5 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(Loan_Calculator
         main.c
-        main2.c)
+        loan_tab.c
+        head.h)

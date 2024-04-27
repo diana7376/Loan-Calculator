@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Amortization Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function calculateAmortization() {
+            var balance = parseFloat(document.getElementById("balance").value);
+            var interestRate = parseFloat(document.getElementById("interestRate").value) / 100;
+            var terms = parseInt(document.getElementById("terms").value);
+
+            var resultElement = document.getElementById("result");
+
+            if (balance <= 0 || interestRate <= 0 || terms <= 0 || isNaN(balance) || isNaN(interestRate) || isNaN(terms)) {
+                resultElement.innerHTML = "<p>Please enter valid loan amount, interest rate, and number of months.</p>";
+                return;
+            }
+
+            var monthlyRate = interestRate / 12;
+            var payment = balance * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -terms)));
+
+            var resultHTML = "<h2>Amortization Schedule</h2>";
+            resultHTML += "<p><strong>Loan amount:</strong> $" + balance.toFixed(2) + "</p>";
+            resultHTML += "<p><strong>Interest rate:</strong> " + (interestRate * 100).toFixed(2) + "%</p>";
+            resultHTML += "<p><strong>Number of months:</strong> " + terms + "</p>";
+            resultHTML += "<p><strong>Monthly payment:</strong> $" + payment.toFixed(2) + "</p>";
+            resultHTML += "<p><strong>Total paid:</strong> $" + (payment * terms).toFixed(2) + "</p>";
+            resultHTML += "<h3>Monthly Breakdown</h3>";
+            resultHTML += "<table>";
+            resultHTML += "<tr><th>Month #</th><th>Balance</th><th>Interest</th><th>Principal</th></tr>";
+
+            for (var count = 0; count < terms; count++) {
+                var interest = balance * monthlyRate;
+                var monthlyPrincipal = payment - interest;
+                balance -= monthlyPrincipal;
+
+                resultHTML += "<tr><td>" + (count + 1) + "</td><td>$" + balance.toFixed(2) + "</td><td>$" + interest.toFixed(2) + "</td><td>$" + monthlyPrincipal.toFixed(2) + "</td></tr>";
+            }
+
+            resultHTML += "</table>";
+
+            resultElement.innerHTML = resultHTML;
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Loan Amortization Calculator</h1>
+    <div class="input-form">
+        <label for="balance">Loan Amount:</label>
+        <input type="number" id="balance" step="0.01" placeholder="Enter loan amount">
+
+        <label for="interestRate">Annual Interest Rate (%):</label>
+        <input type="number" id="interestRate" step="0.01" placeholder="Enter annual interest rate">
+
+        <label for="terms">Number of Months:</label>
+        <input type="number" id="terms" placeholder="Enter number of months">
+
+        <button onclick="calculateAmortization()">Calculate</button>
+    </div>
+    <div id="result" class="result"></div>
+</div>
+</body>
+</html>
