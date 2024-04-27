@@ -2,45 +2,38 @@
 #include <math.h>
 #include <stdbool.h>
 
-
 bool validateInputs(double value) {
-    if (value == 0) {
+    if (value <= 0) {
         return false;
     } else {
         return true;
     }
 }
 
-void amortToFile(double balance, double interestRate, int terms) {
-
-    FILE *file = fopen("Loan_data.txt", "w");
-    if (file == NULL) {
-        printf("Error opening file.\n");
-        return;
-    }
-
+char* amort(double balance, double interestRate, int terms) {
+    static char result[10000];
     double monthlyRate = interestRate / 12;
     double payment = balance * (monthlyRate / (1 - pow(1 + monthlyRate, -terms)));
+    int result_length = 0;
 
-    fprintf(file, "Loan amount: $%.2f\n", balance);
-    fprintf(file, "Interest rate: %.2f%%\n", interestRate * 100);
-    fprintf(file, "Number of months: %d\n", terms);
-    fprintf(file, "Monthly payment: $%.2f\n", payment);
-    fprintf(file, "Total paid: $%.2f\n\n", payment * terms);
+    result_length += sprintf(result + result_length, "Loan amount: $%.2f\n", balance);
+    result_length += sprintf(result + result_length, "Interest rate: %.2f%%\n", interestRate * 100);
+    result_length += sprintf(result + result_length, "Number of months: %d\n", terms);
+    result_length += sprintf(result + result_length, "Monthly payment: $%.2f\n", payment);
+    result_length += sprintf(result + result_length, "Total paid: $%.2f\n\n", payment * terms);
 
-    fprintf(file, "Month #\tBalance\t\tInterest\tPrincipal\n");
+    result_length += sprintf(result + result_length, "Month #\tBalance\t\tInterest\tPrincipal\n");
 
     for (int count = 0; count < terms; ++count) {
         double interest = balance * monthlyRate;
         double monthlyPrincipal = payment - interest;
         balance -= monthlyPrincipal;
 
-        fprintf(file, "%d\t$%.2f\t$%.2f\t$%.2f\n",
-                count + 1, balance, interest, monthlyPrincipal);
+        result_length += sprintf(result + result_length, "%d\t$%.2f\t$%.2f\t$%.2f\n",
+                                 count + 1, balance, interest, monthlyPrincipal);
     }
 
-    fclose(file);
-    printf("Loan data has been saved to Loan_data.txt\n");
+    return result;
 }
 
 void getValues() {
@@ -61,7 +54,7 @@ void getValues() {
     bool intrVal = validateInputs(interestRate);
 
     if (balVal && intrVal) {
-        amortToFile(balance, interestRate, terms);
+        printf("%s", amort(balance, interestRate, terms));
     } else {
         printf("Please check your inputs and retry - invalid values.\n");
     }
