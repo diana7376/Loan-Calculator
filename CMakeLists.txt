@@ -4,6 +4,4 @@ project(Loan_Calculator C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(Loan_Calculator
-        main.c
-        loan_tab.c
-        head.h)
+        loan_dif.c)
