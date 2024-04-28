@@ -49,18 +49,6 @@ cmake_ninja_workdir = C$:/Users/user/Desktop/Loan-Calculator/cmake-build-debug/
 
 build cmake_object_order_depends_target_Loan_Calculator: phony || CMakeFiles/Loan_Calculator.dir
 
-build CMakeFiles/Loan_Calculator.dir/main.c.obj: C_COMPILER__Loan_Calculator_unscanned_Debug C$:/Users/user/Desktop/Loan-Calculator/main.c || cmake_object_order_depends_target_Loan_Calculator
-  DEP_FILE = CMakeFiles\Loan_Calculator.dir\main.c.obj.d
-  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\Loan_Calculator.dir
-  OBJECT_FILE_DIR = CMakeFiles\Loan_Calculator.dir
-
-build CMakeFiles/Loan_Calculator.dir/loan_tab.c.obj: C_COMPILER__Loan_Calculator_unscanned_Debug C$:/Users/user/Desktop/Loan-Calculator/loan_tab.c || cmake_object_order_depends_target_Loan_Calculator
-  DEP_FILE = CMakeFiles\Loan_Calculator.dir\loan_tab.c.obj.d
-  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\Loan_Calculator.dir
-  OBJECT_FILE_DIR = CMakeFiles\Loan_Calculator.dir
-
 build CMakeFiles/Loan_Calculator.dir/loan_dif.c.obj: C_COMPILER__Loan_Calculator_unscanned_Debug C$:/Users/user/Desktop/Loan-Calculator/loan_dif.c || cmake_object_order_depends_target_Loan_Calculator
   DEP_FILE = CMakeFiles\Loan_Calculator.dir\loan_dif.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
@@ -75,7 +63,7 @@ build CMakeFiles/Loan_Calculator.dir/loan_dif.c.obj: C_COMPILER__Loan_Calculator
 #############################################
 # Link the executable Loan_Calculator.exe
 
-build Loan_Calculator.exe: C_EXECUTABLE_LINKER__Loan_Calculator_Debug CMakeFiles/Loan_Calculator.dir/main.c.obj CMakeFiles/Loan_Calculator.dir/loan_tab.c.obj CMakeFiles/Loan_Calculator.dir/loan_dif.c.obj
+build Loan_Calculator.exe: C_EXECUTABLE_LINKER__Loan_Calculator_Debug CMakeFiles/Loan_Calculator.dir/loan_dif.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Loan_Calculator.dir
