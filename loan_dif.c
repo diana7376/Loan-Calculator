@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-//  display the menu interface
+// display the menu interface
 void displayMenu() {
     printf("+----------------------------------+\n");
     printf("|        Loan Calculator           |\n");
@@ -10,8 +10,9 @@ void displayMenu() {
     printf("| 2. Calculate payment plan        |\n");
     printf("| 3. Display payment plan          |\n");
     printf("| 4. Display total amount paid     |\n");
-    printf("| 5. Save payment plan to file     |\n");
-    printf("| 6. Exit                          |\n");
+    printf("| 5. Save payment plan to CSV file |\n");
+    printf("| 6. Save payment plan to text file|\n");
+    printf("| 7. Exit                          |\n");
     printf("+----------------------------------+\n");
 }
 
@@ -28,23 +29,23 @@ int main() {
 
         switch (choice) {
             case 1:
-                //  user input for loan parameters
+                // user input for loan parameters
                 printf("\nEnter the principal amount: ");
                 scanf("%lf", &principal);
 
-                printf("Enter the annual interest rate (5 for 5%): ");
+                printf("Enter the annual interest rate (5 for 5%%): ");
                 scanf("%lf", &interest_rate);
 
                 printf("Enter the number of payments (120 for 10 years): ");
-                scanf("%d", &num_payments);
+                scanf("%d", &num_payments); // Corrected this line
 
                 // convert annual interest rate to monthly rate for calculation
-                interest_rate /= 100.0; //percentage to decimal
+                interest_rate /= 100.0; // percentage to decimal
                 interest_rate /= 12.0;  // divide by 12 for monthly interest
                 break;
 
             case 2:
-                // calculate monthly payment using the loan payment formula(amortized loan)
+                // calculate monthly payment using the loan payment formula (amortized loan)
                 payment = (principal * interest_rate) / (1 - pow(1 + interest_rate, -num_payments));
                 printf("\nMonthly payment calculated.\n");
                 break;
@@ -74,17 +75,47 @@ int main() {
                 break;
 
             case 4:
-
                 if (payment == 0) {
                     printf("\nPlease calculate the payment plan first.\n");
                     break;
                 }
-                printf("\nLoaned amount : %.2lf", principal);
-                printf("\nTotal amount paid: %.2lf\n", total_amount_paid);
+                printf("\nLoaned amount : %.2lf\n", principal);
+                printf("Total amount paid: %.2lf\n", total_amount_paid);
                 break;
 
             case 5:
-                // payment plan to file
+                // save payment plan to CSV file
+                if (payment == 0) {
+                    printf("\nPlease calculate the payment plan first.\n");
+                    break;
+                }
+                {
+                    FILE *file = fopen("loan_data.csv", "w");
+                    if (file != NULL) {
+                        fprintf(file, "Month,Payment,Interest,Principal,Balance\n");
+
+                        double remaining_balance = principal;
+                        for (int month = 1; month <= num_payments; month++) {
+                            double interest_paid = remaining_balance * interest_rate; // the interest paid for this month
+                            double principal_paid = payment - interest_paid; // the principal paid for this month
+                            remaining_balance -= principal_paid; // update the remaining balance by subtracting the principal paid
+
+                            fprintf(file, "%d,%.2lf,%.2lf,%.2lf,%.2lf\n",
+                                    month, payment, interest_paid, principal_paid, remaining_balance);
+
+                            // total amount paid for each month
+                            total_amount_paid += payment;
+                        }
+                        fclose(file);
+                        printf("\nPayment plan saved to 'loan_data.csv'.\n");
+                    } else {
+                        printf("\nError opening file for writing.\n");
+                    }
+                }
+                break;
+
+            case 6:
+                // save payment plan to text file
                 if (payment == 0) {
                     printf("\nPlease calculate the payment plan first.\n");
                     break;
@@ -93,16 +124,15 @@ int main() {
                     FILE *file = fopen("loan_data.txt", "w");
                     if (file != NULL) {
                         fprintf(file, "Payment Plan:\n");
-                        fprintf(file, "  Month | Payment        | Interest       | Principal       | Balance\n");
-                        fprintf(file, "-------+-----------------+-----------------+-----------------+--------\n");
+                        fprintf(file, "Month | Payment | Interest | Principal | Balance\n");
 
                         double remaining_balance = principal;
                         for (int month = 1; month <= num_payments; month++) {
                             double interest_paid = remaining_balance * interest_rate; // the interest paid for this month
-                            double principal_paid = payment - interest_paid;// the principal paid for this month
-                            remaining_balance -= principal_paid;// update the remaining balance by subtracting the principal paid
+                            double principal_paid = payment - interest_paid; // the principal paid for this month
+                            remaining_balance -= principal_paid; // update the remaining balance by subtracting the principal paid
 
-                            fprintf(file, "  %3d | %.2lf            | %.2lf            | %.2lf           | %.2lf\n",
+                            fprintf(file, "%d | %.2lf | %.2lf | %.2lf | %.2lf\n",
                                     month, payment, interest_paid, principal_paid, remaining_balance);
 
                             // total amount paid for each month
@@ -116,10 +146,9 @@ int main() {
                 }
                 break;
 
-            case 6:
-                printf("\nWe are waiting for you next time:)\n");
+            case 7:
+                printf("\nWe are waiting for you next time :)\n");
                 printf("\nExiting...\n");
-
                 return 0;
 
             default:
